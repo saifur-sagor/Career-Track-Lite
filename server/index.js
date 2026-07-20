@@ -13,7 +13,7 @@ app.use(cors({
   credentials: true
 }));
 
-// Health Check Route (সার্ভার ঠিকমত চলছে কি না চেক করার জন্য)
+// Health Check Route
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'OK', message: 'Server is healthy' });
 });
