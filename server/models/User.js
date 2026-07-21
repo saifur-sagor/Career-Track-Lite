@@ -1,27 +1,32 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [true, "Name is required"],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, 'Email is required'],
+      required: [true, "Email is required"],
       unique: true,
       lowercase: true,
       trim: true,
     },
     password: {
       type: String,
-      required: [true, 'Password is required'],
+      required: function () {
+        return !this.googleId;
+      },
     },
+    photo: { type: String, default: "https://i.ibb.co/MBtjqXQ/no-avatar.png" }, // ছবির URL (avatar এর জায়গায় photo)
+    googleId: { type: String }, // Google login-এর জন্য
   },
+
   {
     timestamps: true,
-  }
+  },
 );
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);

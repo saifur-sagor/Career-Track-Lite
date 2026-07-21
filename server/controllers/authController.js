@@ -1,16 +1,18 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // Register User
 exports.register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, photo } = req.body;
 
     // 1. Check if user already exists
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ success: false, message: 'User already exists' });
+      return res
+        .status(400)
+        .json({ success: false, message: "User already exists" });
     }
 
     // 2. Hash password
@@ -22,23 +24,25 @@ exports.register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      photo: photo || undefined,
     });
 
     await user.save();
 
     // 4. Generate Token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
+      expiresIn: "7d",
     });
 
     res.status(201).json({
       success: true,
-      message: 'User registered successfully',
+      message: "User registered successfully",
       token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
+        photo: user.photo,
       },
     });
   } catch (error) {
@@ -54,28 +58,70 @@ exports.login = async (req, res) => {
     // 1. Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ success: false, message: 'Invalid credentials' });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid credentials" });
     }
 
     // 2. Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ success: false, message: 'Invalid credentials' });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid credentials" });
     }
 
     // 3. Generate Token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
+      expiresIn: "7d",
     });
 
     res.status(200).json({
       success: true,
-      message: 'Logged in successfully',
+      message: "Logged in successfully",
       token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
+        photo: user.photo,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Google Login
+exports.googleLogin = async (req, res) => {
+  try {
+    const { name, email, photo, googleId } = req.body;
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = new User({
+        name,
+        email,
+        photo,
+        googleId,
+      });
+      await user.save();
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Google login successful",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        photo: user.photo,
       },
     });
   } catch (error) {
@@ -86,7 +132,7 @@ exports.login = async (req, res) => {
 // Get Current User Profile (Protected Route)
 exports.getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id).select("-password");
     res.status(200).json({ success: true, user });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
