@@ -4,6 +4,7 @@ import FAQSection from './Components/FAQSection'
 import Footer from './Components/Footer'
 import HowItWorks from './Components/HowItWorks'
 import Navbar from './Components/Navbar'
+import Newsletter from './Components/Newsletter'
 import StatsShowcase from './Components/StatsShowcase'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
      <Benefits></Benefits>
      <StatsShowcase></StatsShowcase>
      <FAQSection></FAQSection> 
+     <Newsletter></Newsletter>
      <Footer></Footer>   
     
     </>
