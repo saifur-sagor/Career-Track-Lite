@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+/* 🎨 Theme & Custom Neon Cyberpunk Palette Setup */
+@theme {
+  /* Background Colors */
+  --color-cyber-dark: #0B0F17;
+  --color-cyber-card: #161B22;
+  --color-cyber-border: #21262D;
+  --color-cyber-light-bg: #F8FAFC;
+  --color-cyber-light-card: #FFFFFF;
+
+  /* Accent & Neon Colors */
+  --color-neon-cyan: #00F0FF;
+  --color-neon-deep-cyan: #0284C7;
+  --color-neon-magenta: #D946EF;
+}
+
+/* Base Body Styles */
+body {
+  background-color: var(--color-cyber-dark);
+  color: #F3F4F6;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
