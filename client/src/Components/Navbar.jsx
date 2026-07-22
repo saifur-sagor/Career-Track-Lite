@@ -59,6 +59,18 @@ const Navbar = () => {
       >
         Community
       </NavLink>
+      <NavLink
+        to="/contact"
+        className={({ isActive }) =>
+          `font-medium text-sm transition-all ${
+            isActive
+              ? "text-neon-cyan font-semibold drop-shadow-[0_0_8px_rgba(0,240,255,0.5)]"
+              : "text-slate-400 hover:text-slate-200 dark:hover:text-white"
+          }`
+        }
+      >
+        Contact
+      </NavLink>
     </>
   );
 
