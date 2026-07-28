@@ -7,7 +7,6 @@ exports.register = async (req, res) => {
   try {
     const { name, email, password, photo } = req.body;
 
-    // 1. Check if user already exists
     let user = await User.findOne({ email });
     if (user) {
       return res
@@ -15,11 +14,9 @@ exports.register = async (req, res) => {
         .json({ success: false, message: "User already exists" });
     }
 
-    // 2. Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // 3. Create new user
     user = new User({
       name,
       email,
@@ -29,7 +26,6 @@ exports.register = async (req, res) => {
 
     await user.save();
 
-    // 4. Generate Token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
@@ -55,7 +51,6 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1. Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
       return res
@@ -63,7 +58,6 @@ exports.login = async (req, res) => {
         .json({ success: false, message: "Invalid credentials" });
     }
 
-    // 2. Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res
@@ -71,7 +65,6 @@ exports.login = async (req, res) => {
         .json({ success: false, message: "Invalid credentials" });
     }
 
-    // 3. Generate Token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
@@ -92,18 +85,36 @@ exports.login = async (req, res) => {
   }
 };
 
-// Google Login
+// Google Login (Updated)
 exports.googleLogin = async (req, res) => {
   try {
-    const { name, email, photo, googleId } = req.body;
+    const { access_token } = req.body;
+
+    if (!access_token) {
+      return res.status(400).json({ success: false, message: "Access token is required" });
+    }
+
+    const googleRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    const googleUser = await googleRes.json();
+
+    if (!googleUser.email) {
+      return res.status(400).json({ success: false, message: "Invalid Google token" });
+    }
+
+    const { email, name, picture, sub: googleId } = googleUser;
 
     let user = await User.findOne({ email });
 
     if (!user) {
       user = new User({
-        name,
+        name: name || "Google User",
         email,
-        photo,
+        photo: picture || "",
         googleId,
       });
       await user.save();
@@ -125,6 +136,7 @@ exports.googleLogin = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error("Google Auth Backend Error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };

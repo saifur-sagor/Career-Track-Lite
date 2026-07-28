@@ -14,7 +14,7 @@ const Login = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/dashboard";
+  const from = location.state?.from?.pathname || "/";
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,11 +67,11 @@ const Login = () => {
 
       {/* Glass Card */}
       <div className="w-full max-w-md p-8 rounded-3xl bg-cyber-card/30 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] relative z-10 hover:border-neon-cyan/30 transition-all duration-300">
-        <div className="absolute top-0 left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-neon-cyan to-transparent" />
+        <div className="absolute top-0 left-10 right-10 `h-[2px]` `bg-gradient-to-r from-transparent via-neon-cyan to-transparent`" />
 
         <div className="text-center space-y-2 mb-6">
           <div className=" flex items-center justify-center text-neon-cyan text-3xl font-extrabold tracking-tight drop-shadow-md">
-            Welcome Back<SiWelcometothejungle />
+            Welcome Back
           </div>
           <p className="text-xs text-slate-400 font-mono">
             Access your job application tracking dashboard

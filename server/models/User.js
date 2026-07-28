@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
         return !this.googleId;
       },
     },
-    photo: { type: String, default: "https://i.ibb.co/MBtjqXQ/no-avatar.png" }, // ছবির URL (avatar এর জায়গায় photo)
+    photo: { type: String, default: "https://i.ibb.co/MBtjqXQ/no-avatar.png" },
     googleId: { type: String }, // Google login-এর জন্য
   },
 

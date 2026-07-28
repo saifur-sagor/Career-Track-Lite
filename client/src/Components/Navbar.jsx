@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
   const { user, logoutUser } = useContext(AuthContext);
-  const [isDarkMode, setIsDarkMode] = useState(true); // Cyberpunk থিমের জন্য ডিফল্ট ডার্ক
+  const [isDarkMode, setIsDarkMode] = useState(true); // Cyberpunk default to dark mode
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Light/Dark Theme Toggle Effect
@@ -80,7 +80,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* 🎯 Career Track Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 p-[1px] shadow-lg shadow-cyan-500/20 group-hover:shadow-neon-cyan/40 transition-all">
+            <div className="w-9 h-9 rounded-xl `bg-gradient-to-tr from-cyan-500 to-indigo-600 p-[1px]` shadow-lg shadow-cyan-500/20 group-hover:shadow-neon-cyan/40 transition-all">
               <div className="w-full h-full bg-cyber-dark rounded-[11px] flex items-center justify-center">
                 {/* Career Track Growth Icon */}
                 <svg
@@ -156,12 +156,12 @@ const Navbar = () => {
             {/* Auth Buttons or User Profile */}
             {user ? (
               <div className="flex items-center gap-3 bg-cyber-card p-1.5 pl-3 rounded-full border border-cyber-border">
-                <span className="text-xs font-medium text-slate-200">
-                  {user.name}
-                </span>
                 <img
-                  src={user.photo || "https://i.ibb.co/MBtjqXQ/no-avatar.png"}
-                  alt={user.name}
+                  src={
+                    user.photo ||
+                    "https://www.istockphoto.com/photos/user-profile"
+                  }
+                  title={user.name}
                   className="w-8 h-8 rounded-full object-cover ring-2 ring-neon-cyan"
                 />
                 <button

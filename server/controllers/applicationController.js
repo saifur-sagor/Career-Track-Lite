@@ -33,7 +33,6 @@ exports.updateApplication = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Application not found' });
     }
 
-    // Check ownership
     if (application.user.toString() !== req.user.id) {
       return res.status(401).json({ success: false, message: 'Not authorized' });
     }
@@ -58,7 +57,6 @@ exports.deleteApplication = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Application not found' });
     }
 
-    // Check ownership
     if (application.user.toString() !== req.user.id) {
       return res.status(401).json({ success: false, message: 'Not authorized' });
     }
