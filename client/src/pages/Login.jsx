@@ -1,8 +1,7 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { MdError } from "react-icons/md";
-import { FaGoogle } from "react-icons/fa";
-import { SiWelcometothejungle } from "react-icons/si";
+import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../context/AuthContext";
 import { useGoogleLogin } from "@react-oauth/google";
 
@@ -113,7 +112,7 @@ const Login = () => {
               type="password"
               name="password"
               required
-              placeholder="••••••••"
+              placeholder="type your password"
               value={formData.password}
               onChange={handleChange}
               className="input input-bordered w-full bg-slate-900/40 border-white/10 text-white placeholder-slate-500 text-xs focus:border-neon-cyan focus:outline-none backdrop-blur-sm transition-all"
@@ -123,7 +122,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 mt-2 rounded-xl bg-neon-cyan hover:bg-cyan-300 disabled:bg-slate-700 text-cyber-dark font-bold text-xs tracking-wider uppercase font-mono shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+            className="w-full py-3.5 mt-2 rounded-xl bg-neon-cyan hover:bg-cyan-300 disabled:bg-slate-700 text-cyber-dark font-bold text-xs tracking-wider uppercase font-mono shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
           >
             {loading ? "Authenticating..." : "Sign In ➔"}
           </button>
@@ -144,10 +143,10 @@ const Login = () => {
           type="button"
           onClick={() => handleGoogleLogin()}
           disabled={loading}
-          className="w-full py-2.5 rounded-xl bg-slate-900/50 hover:bg-slate-800/60 border border-white/10 text-slate-200 text-xs font-medium flex items-center justify-center gap-2 backdrop-blur-sm transition-all active:scale-[0.98]"
+          className="w-full py-2.5 rounded-xl bg-slate-900/50 hover:bg-slate-800/60 border border-white/10 text-slate-200 text-xs font-medium flex items-center justify-center gap-2 backdrop-blur-sm transition-all active:scale-[0.98] cursor-pointer"
         >
           <span>
-            <FaGoogle />
+            <FcGoogle className='w-4 h-4'/>
           </span>{" "}
           Sign in with Google
         </button>
